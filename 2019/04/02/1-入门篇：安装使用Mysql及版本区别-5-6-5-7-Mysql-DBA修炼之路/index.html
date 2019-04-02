@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="枫之阁">
 <meta property="og:description" content="回顾各位朋友好,很高兴又和大家见面,经过上一章的学习,我们简单的认识了一下Mysql,学习了Mysql的发展历程,Mysql的分支公司,Mysql的优势所在及简单解剖了Mysql的组成部分。按照上章节安装完成所需环境之后(如果是初学Linux的同学在安装操作系统上有什么疑问可以直接将问题发送至我的邮箱，联系小助手微信：cto51boke 获取),在本章就开始在我们的环境上进行实际搭建,此次搭建参考">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-02T07:43:29.905Z">
+<meta property="og:updated_time" content="2019-04-02T07:55:35.611Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1.入门篇：安装使用Mysql及版本区别(5.6 5.7)-Mysql DBA修炼之路">
 <meta name="twitter:description" content="回顾各位朋友好,很高兴又和大家见面,经过上一章的学习,我们简单的认识了一下Mysql,学习了Mysql的发展历程,Mysql的分支公司,Mysql的优势所在及简单解剖了Mysql的组成部分。按照上章节安装完成所需环境之后(如果是初学Linux的同学在安装操作系统上有什么疑问可以直接将问题发送至我的邮箱，联系小助手微信：cto51boke 获取),在本章就开始在我们的环境上进行实际搭建,此次搭建参考">
@@ -245,16 +245,16 @@ var _hmt = _hmt || [];
 <h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>5.6、5.7、8.0的环境准备均是一样的<br>1.网络环境：因为我们目前是学习使用，所以可以将服务器的防火墙、selinux进行关闭，避免影响到我们学习时一些通讯问题，文件权限写入问题等等，一般生产上selinux也是不开的，防火墙也是在硬件上进行维护，所以大家关闭即可，关闭方式如下：</p>
 <p>CentOS7：<br>防火墙临时关闭：<code>systemctl stop firewalld</code><br>关闭防火墙开机自启：<code>systemctl disable firewalld</code><br>selinux临时关闭：<code>setenforce 0</code><br>selinux永久关闭：<code>sed -i &#39;s/SELINUX=.*/SELINUX=disabled/g&#39; /etc/sysconfig/selinux</code></p>
 <p>CentOS6：<br>防火墙临时关闭：<code>service iptables stop</code><br>关闭防火墙开机自启：<code>chkconfig iptables off</code><br>selinux临时关闭：<code>setenforce 0</code><br>selinux永久关闭：<code>sed -i &#39;s/SELINUX=.*/SELINUX=disabled/g&#39; /etc/sysconfig/selinux</code><br>建议大家将四部分全部执行操作，不然服务可能还是处于开启状态，如selinux 修改了配置文件并不会立即生效<br>Selinux简单带一下：防火墙的作用大家都清楚，是对外保护的服务，Selinux通俗的说其主要保护的是对Linux文件写入、修改、删除进行保护的，其有一套特定的规则可以进行配置，有兴趣了解的朋友可以研究一下，现在生产上用的很少，所以也不用当作重点<br>2.CPU IO调度模型：IO调度模式对数据库也至关重要，Mysql是通过CPU进行IO调度去磁盘获取数据，但IO调度也有适应的不同场景，比如SAS磁盘和固态盘的不同选择，让我们一起看下，</p>
-<p>查看当前IO调度模式：[]内为默认<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /data/server]<span class="comment"># cat /sys/block/sda/queue/scheduler</span></span><br><span class="line">noop [deadline] cfq</span><br><span class="line">[root@localhost /data/server]<span class="comment">#</span></span><br></pre></td></tr></table></figure></p>
+<p>查看当前IO调度模式：[]内为默认<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /data/server]# cat /sys/block/sda/queue/scheduler</span><br><span class="line">noop [deadline] cfq</span><br><span class="line">[root@localhost /data/server]#</span><br></pre></td></tr></table></figure></p>
 <p>1）cfg模式为比较通用的算法,保证所有任务尽量公平<br>此模式会给进程任务分配一个请求队列与时间片<br>在此时间片内由进程向设备文件进行请求，时间片消耗完后被挂起等待调度<br>2）deadline模式是在cfg的基础上，确保了在一个截止时间内服务请求,这个截止时间是可调整的<br>而默认读期限短于写期限.这样就防止了写操作因为不能被读取而饿死的现象<br>deadline是数据库服务器IO模型的最好选择 优先处于读请求 比较适合于SAS似机械磁盘<br>3）noop模式只有一个队列，每当有新的请求进来会将其与最近请求进行合并设备文件<br>此模式优先写而饿死读操作，与deadline相点相反的意思<br>此模式如果是机械磁盘极度不建议使用，如果是固态磁盘则可以尝试</p>
 <p>修改当前IO调度模式：<br>Centos7：<code>grubby --update-kernel=ALL --args=&quot;elevator=deadline&quot;</code><br>Centos6：<code>vi /etc/grub.conf</code> 尾行添加 <code>elevator=deadline</code><br><code>echo deadline &gt; /sys/block/sda/queue/scheduler</code><br>3.SWAP使用力度：SWAP是一个对操作系统内存的保护机制，是磁盘上文件到内存的映射，在内存不足或内存任务不活跃时操作系统会将这些任务唤出到SWAP中，以防止系统负载过高，导致操作系统直接挂起，操作系统就是你的大脑，大脑烧掉了，身上的零件就都没啥用了，但过多使用SWAP就会降低数据库的性能，因为其本身并不是内存，所以我们取一个权衡值，既保障有SWAP使用，但尽量不使用（如果你的公司不差钱,机器的性能都特别高，那可以直接将swap设置为0，主库如果down机直接进行切换从库，性能至上）</p>
-<p>查看当前分配比例：<br>[root@localhost /data/server]# cat /proc/sys/vm/swappiness<br>30<br>[root@localhost /data/server]#</p>
+<p>查看当前分配比例：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost /data/server]# cat /proc/sys/vm/swappiness</span><br><span class="line">30</span><br><span class="line">[root@localhost /data/server]#</span><br></pre></td></tr></table></figure></p>
 <p>修改使用优先级比例：<br>当前修改：echo 10 &gt; /proc/sys/vm/swappiness<br>开机调用：echo -e “echo 10 &gt; /proc/sys/vm/swappiness” &gt;&gt; /etc/rc.d/rc.local<br>4.文件系统：CentOS6的默认文件系统为ex4，7的默认为XFS，进行数据库业务选择时我们建议使用XFS，后续学到Mysql索引时会了解到Mysql是B+TREE的结构，而XFS也是这种存储方式，与Mysql结合更好，并且此文件系统类型更稳定</p>
 <p><strong>CentOS6</strong>格式化<strong>XFS</strong>需要操作如下：<br>1.<code>yum install -y xfsprogs xfsdump</code><br>2.将文件系统格式化为xfs格式<br>5.系统参数：Mysql本身就是为应用提供服务的，所以生产上会有大量的连接到Mysql上，并且并发进行文件数据读取，而Linux本身为了防止并发进程过多导致系统崩溃，对进行参数进行了限制，我们直接进行修改即可</p>
 <p>查看：ulimit -a<br>1.打开文件的句柄数：open files（防止too many open files错误）<br>2.针对用户数量限制：max user processes （防止单机多实例,连接数过多拒绝新连接）</p>
 <p>修改：<br>echo -e “<em> soft nproc 65535\n</em> hard nproc 65535\n<em> soft nofile 65535\n</em> hard nofile 65535\n” &gt;&gt; /etc/security/limits.conf</p>
 <p>生效：退出当前终端重新登陆ulimit –a查看两项参数是否已变更为65535<br>以上我们就完成了基础环境准备，下面就一起开始进行Mysql安装</p>
-<h2 id="Mysql5-6安装"><a href="#Mysql5-6安装" class="headerlink" title="Mysql5.6安装"></a>Mysql5.6安装</h2><h4 id="一、环境准备："><a href="#一、环境准备：" class="headerlink" title="一、环境准备："></a>一、环境准备：</h4><p>1.目录创建：mkdir -p /data/{software,mysql}<br>mkdir -p /data/mysql/{data,log,tmp}</p>
+<h2 id="Mysql5-6安装"><a href="#Mysql5-6安装" class="headerlink" title="Mysql5.6安装"></a>Mysql5.6安装</h2><h4 id="一、环境准备："><a href="#一、环境准备：" class="headerlink" title="一、环境准备："></a>一、环境准备：</h4><p>1.目录创建：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/&#123;software,mysql&#125;</span><br><span class="line">mkdir -p /data/mysql/&#123;data,log,tmp&#125;</span><br></pre></td></tr></table></figure></p>
 <p>2.用户创建：useradd mysql</p>
 <p>3.安装依赖包：yum install perl perl-devel perl-Data-Dumper libaio-devel -y</p>
 <h3 id="二、安装："><a href="#二、安装：" class="headerlink" title="二、安装："></a>二、安装：</h3><p>1.下载包文件：cd /data/software/<br>wget <a href="https://cdn.mysql.com/archives/mysql-5.6/mysql-5.6.34-linux-glibc2.5-x86_64.tar.gz" target="_blank" rel="noopener">https://cdn.mysql.com/archives/mysql-5.6/mysql-5.6.34-linux-glibc2.5-x86_64.tar.gz</a><br>tar -zxvf mysql-5.6.34-linux-glibc2.5-x86_64.tar.gz<br>mv mysql-5.6.34-linux-glibc2.5-x86_64 /usr/local/mysql</p>
@@ -266,31 +266,30 @@ var _hmt = _hmt || [];
 <p>4.查看初始化后数据库文件：ls /data/mysql/data/<br>如果包括mysql、information_schema、test目录即可以视为初始化成功</p>
 <p>[root@localhost data]# ls<br>ib_buffer_pool ibdata1 ib_logfile0 ib_logfile1 ib_logfile2 mysql test undo001 undo002 undo003</p>
 <p>5.最后我们启动mysql：/usr/local/mysql/bin/mysqld_safe –defaults-file=/etc/my.cnf &amp;<br>我们看一下图示内容：正常初始化后会出现两个OK的提示，并提示我们使用mysqladmin命令进行密码的初次配置，最后使用mysqld_safe方式启动Mysql，我们在启动时手工指定了配置文件的位置，其实也可以不用指定，但你需要知道Mysql找寻配置文件时的顺序，如下：</p>
-<p>/etc/my.cnf<br>/etc/mysql/my.cnf<br>/usr/local/mysql/etc/my.cnf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/etc/my.cnf</span><br><span class="line">/etc/mysql/my.cnf</span><br><span class="line">/usr/local/mysql/etc/my.cnf</span><br></pre></td></tr></table></figure>
 <h2 id="Mysql5-7安装"><a href="#Mysql5-7安装" class="headerlink" title="Mysql5.7安装"></a>Mysql5.7安装</h2><p>Mysql5.7的安装与5.6的安装方式基本一致，不同的地方在于初始化部分，我们来看一下不同的地方</p>
 <p>###5.7初始化Mysql：<br>初始化操作：/usr/local/mysql/bin/mysqld –defaults-file=/etc/my.cnf –basedir=/usr/local/mysql –datadir=/data/mysql/data –user=mysql –initialize</p>
 <p>查看随机密码：可以看到我们的初始密码为 “Eiv<em>/Dy!I44t”<br>[root@localhost data]# cat /data/mysql/log/error.log | grep password<br>2019-02-21T10:45:24.067928Z 1 [Note] A temporary password is generated for root@localhost: Eiv</em>/Dy!I44t</p>
 <p>5.启动mysql：/usr/local/mysql/bin/mysqld_safe –defaults-file=/etc/my.cnf &amp;<br>5.6与5.7区别总结：此处仅介绍初始化后的不同，更多特性上的不同后续我们进行讲解</p>
 <p>###Mysql5.6：<br>1.初始化命令为mysql_install_db,初始化之后会由我们自己来进行密码的初次修改<br>2.数据目录下包含mysql information_schema test performache_schema四个数据库</p>
 <p>###Mysq.5.7：<br>1.初始化命令为mysqld,并多了一个initialize参数<br>初始化之后默认会生成一个随机密码至error.log文件中<br>后续我们使用这个密码进行二次修改<br>这个密码只是Mysql提供给我们初次使用的<br>登陆之后会提示我们密码过期问题<br>所以我们一般在初始化之后直接对密码进行二次修改使用如下命令：</p>
-<p>/usr/local/mysql/bin/mysqladmin -uroot -p password<br>输入刚刚的随机密码，再输入两次你需要的密码即可</p>
+<p><code>/usr/local/mysql/bin/mysqladmin -uroot -p password</code><br>输入刚刚的随机密码，再输入两次你需要的密码即可</p>
 <p>2.数据目录下包含mysql information_schema sys performache_schema四个数据库</p>
 <p>###5.7初始化参数介绍：</p>
 <p>initialize参数：当我们添加这个参数时Mysql会默认帮我们生成一个随机密码到error.log文件内</p>
 <p>initialize-insecure：如果我们在5.7初始化时指定这个参数，那么此时会和5.6初始化后结果相同，不会为我们生成随机密码由用户进行第一次的密码配置</p>
 <p>##Mysql8.0安装</p>
-<p>###一、环境准备：<br>1.目录创建：mkdir -p /data/{software,mysql}<br>mkdir -p /data/mysql/{data,log,tmp}</p>
-<p>2.用户创建：useradd mysql</p>
-<p>3.安装依赖包：yum install perl perl-devel perl-Data-Dumper libaio-devel -y</p>
-<p>###二、安装：<br>1.下载包文件：cd /data/software/<br>wget <a href="https://cdn.mysql.com//Downloads/MySQL-8.0/mysql-8.0.15-linux-glibc2.12-x86_64.tar.xz" target="_blank" rel="noopener">https://cdn.mysql.com//Downloads/MySQL-8.0/mysql-8.0.15-linux-glibc2.12-x86_64.tar.xz</a><br>xz -d mysql-8.0.15-linux-glibc2.12-x86_64.tar.xz<br>tar -xvf mysql-8.0.15-linux-glibc2.12-x86_64.tar<br>mv mysql-8.0.15-linux-glibc2.12-x86_64 /usr/local/mysql</p>
-<p>2.权限赋值：chown -R mysql:mysql /usr/local/mysql /data/mysql/*</p>
-<p>###三、配置文件： vi /etc/my.cnf<br>大家可以继续使用上面的配置文件内容<br>但需要将部分参数进行删减，因为有部分特性至Mysql8.0已经彻底废弃了，如下：</p>
-<p>max_tmp_tables=200<br>query_cache_size=0<br>query_cache_type=0</p>
+<p>###一、环境准备：<br>1.目录创建：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /data/&#123;software,mysql&#125;</span><br><span class="line">mkdir -p /data/mysql/&#123;data,<span class="built_in">log</span>,tmp&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2.用户创建：<code>useradd mysql</code></p>
+<p>3.安装依赖包：<code>yum install perl perl-devel perl-Data-Dumper libaio-devel -y</code></p>
+<p>###二、安装：<br>1.下载包文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /data/software/</span><br><span class="line">wget https://cdn.mysql.com//Downloads/MySQL-8.0/mysql-8.0.15-linux-glibc2.12-x86_64.tar.xz</span><br><span class="line">xz -d mysql-8.0.15-linux-glibc2.12-x86_64.tar.xz</span><br><span class="line">tar -xvf mysql-8.0.15-linux-glibc2.12-x86_64.tar</span><br><span class="line">mv mysql-8.0.15-linux-glibc2.12-x86_64 /usr/<span class="built_in">local</span>/mysql</span><br></pre></td></tr></table></figure></p>
+<p>2.权限赋值：<code>chown -R mysql:mysql /usr/local/mysql /data/mysql/*</code></p>
+<p>###三、配置文件： vi /etc/my.cnf<br>大家可以继续使用上面的配置文件内容<br>但需要将部分参数进行删减，因为有部分特性至Mysql8.0已经彻底废弃了，如下：<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">max_tmp_tables</span>=<span class="number">200</span></span><br><span class="line"><span class="attr">query_cache_size</span>=<span class="number">0</span></span><br><span class="line"><span class="attr">query_cache_type</span>=<span class="number">0</span></span><br></pre></td></tr></table></figure></p>
 <p>后续讲解8.0新特性时我们会添加一些新的配置参数</p>
 <p>###四、初始化</p>
-<p>/usr/local/mysql/bin/mysqld –defaults-file=/etc/my.cnf –basedir=/usr/local/mysql –datadir=/data/mysql/data –user=mysql –initialize</p>
-<p>查看初始化后数据库文件：ls /data/mysql/data/ 包括<br>[root@localhost data]# ls<br>auto.cnf ca.pem client-key.pem ibdata1 ib_logfile1 ibtmp1 mysql performance_schema public_key.pem server-key.pem undo_001<br>ca-key.pem client-cert.pem ib_buffer_pool ib_logfile0 ib_logfile2 #innodb_temp mysql.ibd private_key.pem server-cert.pem sys undo_002<br>[root@localhost data]#</p>
-<p>###五、最后我们启动mysql：/usr/local/mysql/bin/mysqld_safe –defaults-file=/etc/my.cnf &amp;</p>
+<p><code>/usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf --basedir=/usr/local/mysql --datadir=/data/mysql/data --user=mysql --initialize</code></p>
+<p>查看初始化后数据库文件：<code>ls /data/mysql/data/</code> 包括<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost data]<span class="comment"># ls</span></span><br><span class="line">auto.cnf ca.pem client-key.pem ibdata1 ib_logfile1 ibtmp1 mysql performance_schema public_key.pem server-key.pem undo_001</span><br><span class="line">ca-key.pem client-cert.pem ib_buffer_pool ib_logfile0 ib_logfile2 <span class="comment">#innodb_temp mysql.ibd private_key.pem server-cert.pem sys undo_002</span></span><br><span class="line">[root@localhost data]<span class="comment">#</span></span><br></pre></td></tr></table></figure></p>
+<p>###五、最后我们启动mysql：<code>/usr/local/mysql/bin/mysqld_safe --defaults-file=/etc/my.cnf &amp;</code></p>
 <p>###六、登入Mysql：<br>[root@localhost log]# /usr/local/mysql/bin/mysql -uroot -p<br>Enter password:<br>Welcome to the MySQL monitor. Commands end with ; or \g.<br>Your MySQL connection id is 9<br>Server version: 8.0.15 MySQL Community Server - GPL</p>
 <p>Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.</p>
 <p>Oracle is a registered trademark of Oracle Corporation and/or its<br>affiliates. Other names may be trademarks of their respective<br>owners.</p>
@@ -298,25 +297,25 @@ var _hmt = _hmt || [];
 <p>root@db 10:36: [(none)]&gt;</p>
 <p>##Mysql密码重置<br>至此，Mysql的安装我们学习完成了，那安装完成之后如果我们不小心把error.log文件搞丢了那就查看不到password信息了，或者二次进行修改密码时输入问题导致密码登陆不上了，那应该怎么办，此时我们也可以使用如下的方式进行密码重置，操作很简单，思路是将Mysql的密码权限表跳过，直接可以不用家门钥匙就能进到家门里面了，而且可以为所欲为，这时我们就可以去家里找到我们的钥匙，或者把钥匙和锁都换一把，我们来实际操作一下<br>注:生产中可能我们不会进行此操作,密码都会由DBA或DBA经理进行严格保管,基本没有丢失情况发生,并且一般业务都是禁止停库操作的，但万事也不能保证100% 如果在维护中不够规范导致密码丢失时,可以选择性进行密码重置</p>
 <ol>
-<li><p>关闭Mysql：killall mysqld 或 ps aux | grep mysql | grep -v grep |awk ‘{print $2}’ |xargs kill -9 （不建议使用此类方式停止Mysql，但目前为非常情况因为没有Mysql密码,所以不能使用mysqladmin shutdown的正常关库方式关闭Mysql）</p>
+<li><p>关闭Mysql：<code>killall mysqld</code> 或 <code>ps aux | grep mysql | grep -v grep |awk &#39;{print $2}&#39; |xargs kill -9</code> （不建议使用此类方式停止Mysql，但目前为非常情况因为没有Mysql密码,所以不能使用mysqladmin shutdown的正常关库方式关闭Mysql）</p>
 </li>
-<li><p>使用跳过密码权限表的方式启动Mysql：<br>/usr/local/mysql/bin/mysqld_safe –defaults-file=/etc/my.cnf –skip-grant-tables &amp;<br>参数：–skip-grant-tables是跳过了mysql.user表的权限验证信息，让我们可以直接进入Mysql进行数据库操作</p>
+<li><p>使用跳过密码权限表的方式启动Mysql：<br><code>/usr/local/mysql/bin/mysqld_safe –defaults-file=/etc/my.cnf –skip-grant-tables &amp;</code><br>参数：<code>--skip-grant-tables</code>是跳过了mysql.user表的权限验证信息，让我们可以直接进入Mysql进行数据库操作</p>
 </li>
 <li><p>登陆：mysql （敲mysql命令就直接可以登入了）</p>
 </li>
-<li><p>查看用户：select user,host from mysql.user;(查看一下我们需要修改的用户信息)</p>
+<li><p>查看用户：<code>select user,host from mysql.user;</code>(查看一下我们需要修改的用户信息)</p>
 </li>
-<li><p>修改密码：(Mysql的权限我们后续会再次进行讲解,先了解一下是由用户%主机+密码方式验证的)<br>update mysql.user set authentication_string=PASSWORD(‘new-password’) where user=’root’ and host=’localhost’;</p>
+<li><p>修改密码：(Mysql的权限我们后续会再次进行讲解,先了解一下是由用户%主机+密码方式验证的)<br><code>update mysql.user set authentication_string=PASSWORD(&#39;new-password&#39;) where user=&#39;root&#39; and host=&#39;localhost&#39;;</code></p>
 </li>
 </ol>
-<p>注意：此处我们使用的版本是5.7,以前版本使用如下命令，5.7之后密码的存储字段发生了变化：<br>update mysql.user set password=PASSWORD(‘new-password’) where user=’root’ and host=’localhost’;</p>
+<p>注意：此处我们使用的版本是5.7,以前版本使用如下命令，5.7之后密码的存储字段发生了变化：<br><code>update mysql.user set password=PASSWORD(&#39;new-password&#39;) where user=&#39;root&#39; and host=&#39;localhost&#39;;</code></p>
 <ol start="6">
-<li><p>刷新权限：flush privileges;(Mysql修改user表后不会立即生效,需要执行此命令进行权限的刷新)</p>
+<li><p>刷新权限：<code>flush privileges;</code>(Mysql修改user表后不会立即生效,需要执行此命令进行权限的刷新)</p>
 </li>
-<li><p>重启Mysql：<br>1.关闭Mysql：killall mysqld 或 ps aux | grep mysql | grep -v grep |awk ‘{print $2}’ |xargs kill -9</p>
+<li><p>重启Mysql：<br>1.关闭Mysql：<code>killall mysqld</code> 或 <code>ps aux | grep mysql | grep -v grep |awk &#39;{print $2}&#39; |xargs kill -9</code></p>
 </li>
 </ol>
-<p>2.启动Mysql：/usr/local/mysql/bin/mysqld_safe –defaults-file=/etc/my.cnf &amp;</p>
+<p>2.启动Mysql：<code>/usr/local/mysql/bin/mysqld_safe --defaults-file=/etc/my.cnf &amp;</code></p>
 <p>##小结<br>在本章中我们学习了Mysql5.6、Mysql5.7、Mysql8.0每个版本的安装过程，并介绍了在安装Mysql之前我们应该先对操作系统进行优化的知识点，同时若在工作中或练习中忘记了root的密码应该怎么进行处理，建议大家在练习时一定要进行反复练习，并且在前期学习最好是手敲方式练习，不要复制粘贴，这样效率虽然高，但是我们现在是学习阶段，不要追求快，多敲几遍这样才记得牢固，包括后面一些知识点学习中遇到问题可以有一个处理思路，Mysql的安装其实很简单，一共就分为5部分，很多的应用服务也基本都可以总结为这5部分：环境准备、安装、配置、初始化、启动，在安装过程中如果遇到问题先去检查一下自己的操作是否是按照老师的操作过程来的，然后再去检查一下自己的环境是不是有问题，多去思考动脑，在下章中我们就开始学习Mysql.user这张表，以及其他一些针对权限方面的控制，权限控制在生产环境中是必然的，如果控制不好用户及开发人员的权限，那出了问题就是你DBA的问题，同时会介绍一些8.0中带入的新特性，我们下章再会！</p>
 
       
@@ -668,15 +667,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">HEXO</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Mysql</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">DBA</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">HEXO</a>
               </li>
             
             <div class="clearfix"></div>
