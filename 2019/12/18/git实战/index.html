@@ -6,20 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://qiniu.afenghu.com">
-  <title>相册 | 枫之阁</title>
+  <title>git实战笔记 | 枫之阁</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Photos     Videos  指弹_女儿情                                 指弹_友谊地久天长                                 指弹_Always with me">
-<meta name="keywords" content="吖枫">
-<meta property="og:type" content="website">
-<meta property="og:title" content="相册">
-<meta property="og:url" content="https://qiniu.afenghu.com/photos/videos.html">
+  <meta name="description" content="git与svn的区别 git核心命令使用 git底层实现原理剖析 基于git通信协议搭建git私服 基于gogs搭建企业git私服">
+<meta name="keywords" content="GIT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git实战笔记">
+<meta property="og:url" content="https://qiniu.afenghu.com/2019/12/18/git实战/index.html">
 <meta property="og:site_name" content="枫之阁">
-<meta property="og:description" content="Photos     Videos  指弹_女儿情                                 指弹_友谊地久天长                                 指弹_Always with me">
+<meta property="og:description" content="git与svn的区别 git核心命令使用 git底层实现原理剖析 基于git通信协议搭建git私服 基于gogs搭建企业git私服">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-01T05:11:01.835Z">
+<meta property="og:image" content="https://qiniu.afenghu.com/assets/git实战.assets/image-20191203160140984.png">
+<meta property="og:image" content="https://qiniu.afenghu.com/assets/git实战.assets/image-20191203162120940.png">
+<meta property="og:image" content="https://qiniu.afenghu.com/assets/git实战.assets/image-20191203162616231.png">
+<meta property="og:image" content="https://qiniu.afenghu.com/assets/git实战.assets/image-20191203192803969.png">
+<meta property="og:image" content="https://qiniu.afenghu.com/assets/git实战.assets/image-20191209141635967.png">
+<meta property="og:image" content="https://qiniu.afenghu.com/assets/git实战.assets/image-20191205133937485.png">
+<meta property="og:updated_time" content="2019-12-18T09:16:53.095Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="相册">
-<meta name="twitter:description" content="Photos     Videos  指弹_女儿情                                 指弹_友谊地久天长                                 指弹_Always with me">
+<meta name="twitter:title" content="git实战笔记">
+<meta name="twitter:description" content="git与svn的区别 git核心命令使用 git底层实现原理剖析 基于git通信协议搭建git私服 基于gogs搭建企业git私服">
+<meta name="twitter:image" content="https://qiniu.afenghu.com/assets/git实战.assets/image-20191203160140984.png">
   
     <link rel="alternative" href="/atom.xml" title="枫之阁" type="application/atom+xml">
   
@@ -179,65 +186,230 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-photos" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-git实战" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      相册
+      git实战笔记
     </h1>
   
 
 
 
   <a href="javascript:;" class="archive-article-date">
-      <i class="icon-smile icon"></i> 阅读数:<span id="/photos/videos.html" class="pageViews">0</span>次
+      <i class="icon-smile icon"></i> 阅读数:<span id="/2019/12/18/git实战/" class="pageViews">0</span>次
   </a>
 
 
+        
+        <a href="/2019/12/18/git实战/" class="archive-article-date">
+  	<time datetime="2019-12-18T09:01:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-18</time>
+</a>
         
       </header>
     
 
       <!-- 目录内容 -->
       
+        <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();">
+          <span class="btn-bg"></span>
+          <span class="btn-text">文章导航</span>
+        </p>
+        <div id="toc-article" class="toc-article" style="display:none">
+          <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+          <strong class="toc-title">文章目录</strong>
+          <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#git基础概念"><span class="toc-number">1.</span> <span class="toc-text">git基础概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#git与svn的区别"><span class="toc-number">1.1.</span> <span class="toc-text">git与svn的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#存储方式不同"><span class="toc-number">1.1.1.</span> <span class="toc-text">存储方式不同</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#使用方式不同"><span class="toc-number">1.1.2.</span> <span class="toc-text">使用方式不同</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#管理模式不同"><span class="toc-number">1.1.3.</span> <span class="toc-text">管理模式不同</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git核心命令"><span class="toc-number">2.</span> <span class="toc-text">git核心命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#git-客户端安装"><span class="toc-number">2.1.</span> <span class="toc-text">git 客户端安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#git的基本使用"><span class="toc-number">2.2.</span> <span class="toc-text">git的基本使用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#初始化git仓库"><span class="toc-number">2.2.1.</span> <span class="toc-text">初始化git仓库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#查看仓库状态"><span class="toc-number">2.2.2.</span> <span class="toc-text">查看仓库状态</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#本地添加"><span class="toc-number">2.2.3.</span> <span class="toc-text">本地添加</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#本地提交"><span class="toc-number">2.2.4.</span> <span class="toc-text">本地提交</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#远程仓库管理"><span class="toc-number">2.2.5.</span> <span class="toc-text">远程仓库管理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分支管理"><span class="toc-number">2.2.6.</span> <span class="toc-text">分支管理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#tag管理"><span class="toc-number">2.2.7.</span> <span class="toc-text">tag管理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#日志管理"><span class="toc-number">2.2.8.</span> <span class="toc-text">日志管理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git底层原理"><span class="toc-number">3.</span> <span class="toc-text">git底层原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#git存储对象"><span class="toc-number">3.1.</span> <span class="toc-text">git存储对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#git树对象"><span class="toc-number">3.2.</span> <span class="toc-text">git树对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#git提交对象"><span class="toc-number">3.3.</span> <span class="toc-text">git提交对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#git引用"><span class="toc-number">3.4.</span> <span class="toc-text">git引用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git通信协议"><span class="toc-number">4.</span> <span class="toc-text">git通信协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Local-本地协议"><span class="toc-number">4.1.</span> <span class="toc-text">Local(本地协议)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ssh协议"><span class="toc-number">4.2.</span> <span class="toc-text">ssh协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#http协议"><span class="toc-number">4.3.</span> <span class="toc-text">http协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#git协议"><span class="toc-number">4.4.</span> <span class="toc-text">git协议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git私服搭建"><span class="toc-number">5.</span> <span class="toc-text">git私服搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#gogs-介绍安装"><span class="toc-number">5.1.</span> <span class="toc-text">gogs 介绍安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gogs基础配置"><span class="toc-number">5.2.</span> <span class="toc-text">gogs基础配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gogs-定时备份与恢复"><span class="toc-number">5.3.</span> <span class="toc-text">gogs 定时备份与恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#备份与恢复"><span class="toc-number">5.3.1.</span> <span class="toc-text">备份与恢复</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#自动备份脚本"><span class="toc-number">5.3.2.</span> <span class="toc-text">自动备份脚本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#添加定时任务"><span class="toc-number">5.3.3.</span> <span class="toc-text">添加定时任务</span></a></li></ol></li></ol></li></ol>
+        </div>
+        <script type="text/javascript">
+          function showToc(){
+            var toc_article = document.getElementById("toc-article");
+            var show_toc_btn = document.getElementById("show-toc-btn");
+            toc_article.setAttribute("style","display:block");
+            show_toc_btn.setAttribute("style","display:none");
+          };
+          function showBtn(){
+            var toc_article = document.getElementById("toc-article");
+            var show_toc_btn = document.getElementById("show-toc-btn");
+            toc_article.setAttribute("style","display:none");
+            show_toc_btn.setAttribute("style","display:block");
+          };
+        </script>
+      
       <!-- 目录内容结束 -->
 
     <div class="article-entry" itemprop="articleBody">
       
-        <link rel="stylesheet" href="./ins.css">
-<div class="photos-btn-wrap">
-    <a class="photos-btn" href="/photos">Photos</a>
-    <a class="photos-btn active" href="/photos/videos.html">Videos</a>
-</div>
-<center><h1>指弹_女儿情</h1></center>
-<hr>
-<center>
-    <div class="video-container">
-        <iframe height="80%" width="80%" src="http://player.youku.com/embed/XMjUzMzY4OTM3Ng==" frameborder="0" allowfullscreen>
-        </iframe>
-    </div>
-</center>
-<hr>
-<center><h1>指弹_友谊地久天长</h1></center>
-<hr>
-<center>
-    <div class="video-container">
-        <iframe height="80%" width="80%" src="http://player.youku.com/embed/XMjQ5MDExOTY2MA==" frameborder="0" allowfullscreen>
-        </iframe>
-    </div>
-</center>
-<hr>
-<center><h1>指弹_Always with me</h1></center>
-<hr>
-<center>
-    <div class="video-container">
-        <iframe height="80%" width="80%" src="http://player.youku.com/embed/XMjQ4MDQyNTQ0MA==" frameborder="0" allowfullscreen>
-        </iframe>
-    </div>
-</center>
+        <ul>
+<li>git与svn的区别</li>
+<li>git核心命令使用</li>
+<li>git底层实现原理剖析</li>
+<li>基于git通信协议搭建git私服</li>
+<li>基于gogs搭建企业git私服<a id="more"></a>
+</li>
+</ul>
+<p>主讲老师： fox老师</p>
+<h3 id="git基础概念"><a href="#git基础概念" class="headerlink" title="git基础概念"></a>git基础概念</h3><p>git是一个开源的分布式版本控制系统，可以有效、高速地处理从很小到非常大的项目版本管理。git 是 Linus Torvalds为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。</p>
+<h4 id="git与svn的区别"><a href="#git与svn的区别" class="headerlink" title="git与svn的区别"></a>git与svn的区别</h4><ul>
+<li>存储方式不同</li>
+<li>使用方式不同</li>
+<li>管理模式不同</li>
+</ul>
+<h5 id="存储方式不同"><a href="#存储方式不同" class="headerlink" title="存储方式不同"></a>存储方式不同</h5><p>git把内容按<strong>元数据</strong>方式存储,类似k/v数据库，而svn是按文件存储</p>
+<p>git存储过程演示</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git init fox</span><br><span class="line">Initialized empty git repository in D:/git/fox/.git/</span><br><span class="line"><span class="meta">$</span> cd fox</span><br><span class="line"><span class="meta">$</span> echo 'hello world' &gt;&gt; README.MF</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span> git hash-object -w README.MF</span><br><span class="line">warning: LF will be replaced by CRLF in README.MF.</span><br><span class="line">The file will have its original line endings in your working directory.</span><br><span class="line">3b18e512dba79e4c8300dd08aeb37f8e728b8dad</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span> git cat-file -p 3b18e512dba79e4c8300dd08aeb37f8e728b8dad</span><br><span class="line">hello world</span><br></pre></td></tr></table></figure>
+<h5 id="使用方式不同"><a href="#使用方式不同" class="headerlink" title="使用方式不同"></a>使用方式不同</h5><p>从本地把文件推送远程服务，svn只需要commint，而git需要 add、commint、push 三个步骤</p>
+<ul>
+<li>svn使用过程</li>
+</ul>
+<p><img src="/assets/git实战.assets/image-20191203160140984.png" alt="image-20191203160140984"></p>
+<ul>
+<li>git使用过程</li>
+</ul>
+<p><img src="/assets/git实战.assets/image-20191203162120940.png" alt="image-20191203162120940"></p>
+<h5 id="管理模式不同"><a href="#管理模式不同" class="headerlink" title="管理模式不同"></a>管理模式不同</h5><p>git 是一个分布式的版本管理系统，而要svn是一个远程集中式的管理系统</p>
+<ul>
+<li>集中式</li>
+</ul>
+<p><img src="/assets/git实战.assets/image-20191203162616231.png" alt="image-20191203162616231"></p>
+<ul>
+<li>分布式</li>
+</ul>
+<p><img src="/assets/git实战.assets/image-20191203192803969.png" alt="image-20191203192901381"></p>
+<h3 id="git核心命令"><a href="#git核心命令" class="headerlink" title="git核心命令"></a>git核心命令</h3><h4 id="git-客户端安装"><a href="#git-客户端安装" class="headerlink" title="git 客户端安装"></a>git 客户端安装</h4><p>官方客户端： <a href="https://git-scm.com/downloads" target="_blank" rel="noopener">https://git-scm.com/downloads</a></p>
+<p>其它客户端：<a href="https://tortoisegit.org/download/" target="_blank" rel="noopener">https://tortoisegit.org/download/</a></p>
+<p>文档： <a href="https://www.git-scm.com/docs" target="_blank" rel="noopener">https://www.git-scm.com/docs</a></p>
+<p>centos7 安装git</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> yum安装</span><br><span class="line">yum install -y git</span><br></pre></td></tr></table></figure>
+<p>源码编译安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 1.安装依赖环境</span><br><span class="line">yum -y install curl-devel expat-devel gettext-devel openssl-devel zlib-devel gcc perl-ExtUtils-MakeMaker</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 2.下载并解压源码</span><br><span class="line"><span class="meta">$</span> wget https://github.com/git/git/archive/v2.3.0.zip</span><br><span class="line"><span class="meta">$</span> unzip v2.3.0.zip</span><br><span class="line"><span class="meta">$</span> cd git-2.3.0</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>3 编译 安装（如果没有权限就加上sudo）</span><br><span class="line">make prefix=/usr/local/git all</span><br><span class="line">make prefix=/usr/local/git install</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>4、添加环境变量</span><br><span class="line">vim /etc/profile</span><br><span class="line">export PATH=/usr/local/git/bin:$PATH</span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>如果成功显示版本号表示添加成功</span><br><span class="line">git --version</span><br><span class="line">git version 2.3.0</span><br></pre></td></tr></table></figure>
+<p>Git配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>Git安装完之后，需做最后一步配置。打开git bash，分别执行以下两句命令</span><br><span class="line">git config --global user.name "username"</span><br><span class="line">git config --global user.email "xxxx@163.com"</span><br><span class="line"><span class="meta">#</span>git 自动记住用户和密码操作</span><br><span class="line">git config --global credential.helper store</span><br><span class="line"><span class="meta">#</span>查看配置信息</span><br><span class="line">git config -l</span><br><span class="line"></span><br><span class="line">cat ~/.gitconfig</span><br></pre></td></tr></table></figure>
+<h4 id="git的基本使用"><a href="#git的基本使用" class="headerlink" title="git的基本使用"></a>git的基本使用</h4><p>完整模拟从项目添加到push 过程</p>
+<ul>
+<li><p>创建项目</p>
+</li>
+<li><p>初始化git仓库</p>
+</li>
+<li><p>提交文件</p>
+</li>
+<li><p>远程关联</p>
+</li>
+<li><p>push 至远程仓库</p>
+</li>
+</ul>
+<h5 id="初始化git仓库"><a href="#初始化git仓库" class="headerlink" title="初始化git仓库"></a>初始化git仓库</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>基于远程仓库克隆至本地</span><br><span class="line"><span class="meta">$</span> git clone &lt;remote_url&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 将指定目录初始化为git本地仓库</span><br><span class="line"><span class="meta">$</span> git init &lt;directory&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="查看仓库状态"><a href="#查看仓库状态" class="headerlink" title="查看仓库状态"></a>查看仓库状态</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看本地仓库的状态</span><br><span class="line"><span class="meta">$</span> git status</span><br><span class="line"><span class="meta">#</span> 以简短模式查看本地仓库的状态</span><br><span class="line"><span class="meta">#</span> 会显示两列，第一列是文件的状态，第二列是对应的文件</span><br><span class="line"><span class="meta">#</span> 文件状态：A 新增，M 修改，D 删除，?? 未添加到git中</span><br><span class="line"><span class="meta">$</span> git status -s</span><br></pre></td></tr></table></figure>
+<p><strong>文件的状态变化周期</strong></p>
+<p>工作目录下的每一个文件都有两种状态：已跟踪或未跟踪。 已跟踪的文件是指那些被纳入了版本控制的文件，在上一次快照中有它们的记录，在工作一段时间后，它们的状态可能处于未修改，已修改或已放入暂存区。 工作目录中除已跟踪文件以外的所有其它文件都属于未跟踪文件，它们既不存在于上次快照的记录中，也没有放入暂存区。 初次克隆某个仓库的时候，工作目录中的所有文件都属于已跟踪文件，并处于未修改状态。</p>
+<p><img src="/assets/git实战.assets/image-20191209141635967.png" alt="image-20191209141635967"></p>
+<h5 id="本地添加"><a href="#本地添加" class="headerlink" title="本地添加"></a>本地添加</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>添加指定文件至暂存区</span><br><span class="line"><span class="meta">$</span> git add &lt;fileName&gt;</span><br><span class="line"><span class="meta">#</span> 添加所有修改、已删除的文件到暂存区中</span><br><span class="line"><span class="meta">$</span> git add -u &lt;directory&gt;</span><br><span class="line"><span class="meta">#</span>添加所有修改、已删除、新增的文件到暂存区中，省略 &lt;文件路径&gt; 即为当前目录</span><br><span class="line"><span class="meta">$</span> git add -A &lt;directory&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 当需要删除暂存区或分支上的文件，同时工作区不需要这个文件</span><br><span class="line"><span class="meta">$</span> git rm &lt;directory&gt;</span><br><span class="line"><span class="meta">#</span> 当需要删除暂存区或分支上的文件，同时工作区需要这个文件，但是不需要被版本控制</span><br><span class="line"><span class="meta">$</span> git rm --cached &lt;file&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="本地提交"><a href="#本地提交" class="headerlink" title="本地提交"></a>本地提交</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 把暂存区中的文件提交到本地仓库中并添加描述信息</span><br><span class="line"><span class="meta">$</span> git commit &lt;file&gt; -m '提交的描述信息'</span><br><span class="line"><span class="meta">#</span> 把所有修改、已删除的文件提交到本地仓库中</span><br><span class="line"><span class="meta">#</span> 不包括未被版本库跟踪的文件，等同于先调用了 "git add -u"</span><br><span class="line"><span class="meta">$</span> git commit -am '提交的描述信息'</span><br></pre></td></tr></table></figure>
+<h5 id="远程仓库管理"><a href="#远程仓库管理" class="headerlink" title="远程仓库管理"></a>远程仓库管理</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 列出已经存在的远程仓库</span><br><span class="line"><span class="meta">$</span> git remote</span><br><span class="line"><span class="meta">#</span> 列出远程仓库的详细信息，在别名后面列出URL地址</span><br><span class="line"><span class="meta">$</span> git remote -v</span><br><span class="line"><span class="meta">#</span>添加远程仓库地址</span><br><span class="line"><span class="meta">$</span> git remote add origin http:xxx.xxx</span><br><span class="line"><span class="meta">#</span>删除指定名称的远程仓库origin</span><br><span class="line"><span class="meta">$</span> git remote remove origin </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>把本地仓库的提交推送到远程仓库</span><br><span class="line"><span class="meta">#</span>上传新分支至远程</span><br><span class="line"><span class="meta">$</span> git push --set-upstream origin master </span><br><span class="line"><span class="meta">$</span> git push -u origin master</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>将本地分支与远程建立关联</span><br><span class="line"><span class="meta">$</span> git branch --track --set-upstream-to=origin/test test</span><br></pre></td></tr></table></figure>
+<h5 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>查看本地分支，当前所在分支以 "*" 标出</span><br><span class="line"><span class="meta">$</span> git branch</span><br><span class="line"><span class="meta">#</span>查看所有分支</span><br><span class="line"><span class="meta">$</span> git branch -avv</span><br><span class="line"><span class="meta">#</span>基于当前分支创建一个新分支</span><br><span class="line"><span class="meta">$</span> git branch &lt;branch name&gt;</span><br><span class="line"><span class="meta">#</span>基于存在的分支创建一个新分支</span><br><span class="line"><span class="meta">$</span> git branch &lt;branch name&gt; &lt;exist branch&gt;</span><br><span class="line"><span class="meta">#</span>基于远程分支创建一个新分支</span><br><span class="line">git branch &lt;branch name&gt; origin/master</span><br><span class="line"><span class="meta">#</span>基于提交创建一个新分支</span><br><span class="line"><span class="meta">$</span> git branch &lt;branch name&gt; &lt;commit id&gt;</span><br><span class="line"><span class="meta">#</span>基于标签创建一个新分支</span><br><span class="line"><span class="meta">$</span> git branch &lt;branch name&gt; &lt;tag name&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>删除分支</span><br><span class="line"><span class="meta">$</span> git branch -d &#123;dev&#125;</span><br><span class="line"><span class="meta">#</span>切换分支</span><br><span class="line"><span class="meta">$</span> git checkout &lt;branch name&gt;</span><br><span class="line"><span class="meta">#</span>合并分支</span><br><span class="line"><span class="meta">$</span> git merge &lt;merge target&gt;</span><br><span class="line"><span class="meta">#</span>解决冲突，如果因冲突导致自动合并失败，此时 status 为mergeing 状态.</span><br><span class="line"><span class="meta">#</span>需要手动修改后重新提交（commit） </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>还原提交记录</span><br><span class="line"><span class="meta">#</span> 将 HEAD 的指向改变，撤销到指定的提交记录，文件也修改了</span><br><span class="line"><span class="meta">$</span> git reset --hard &lt;commit ID&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="tag管理"><a href="#tag管理" class="headerlink" title="tag管理"></a>tag管理</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>查看当前</span><br><span class="line"><span class="meta">$</span> git tag</span><br><span class="line"><span class="meta">#</span>基于分区创建tag</span><br><span class="line"><span class="meta">$</span> git tag &lt;tag name&gt; &lt;branch name&gt;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 基于提交创建tag</span><br><span class="line"><span class="meta">$</span> git tag &lt;tag name&gt; [&lt;commit ID&gt;]</span><br><span class="line"><span class="meta">#</span> 可以指定标签信息</span><br><span class="line"><span class="meta">$</span> git tag -a &lt;tagname&gt; -m "..."</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 查看标签信息</span><br><span class="line"><span class="meta">$</span> git show &lt;tagname&gt;</span><br><span class="line"><span class="meta">#</span> 推送一个标签到远程</span><br><span class="line"><span class="meta">$</span> git push origin &lt;tagname&gt;</span><br><span class="line"><span class="meta">#</span> 删除标签</span><br><span class="line"><span class="meta">$</span> git tag -d &lt;tagname&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="日志管理"><a href="#日志管理" class="headerlink" title="日志管理"></a>日志管理</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>查看当前分支下所有提交日志</span><br><span class="line"><span class="meta">$</span> git log</span><br><span class="line"><span class="meta">#</span>查看当前分支下所有提交日志</span><br><span class="line"><span class="meta">$</span> git log &#123;branch&#125;</span><br><span class="line"><span class="meta">#</span> 单行显示日志</span><br><span class="line"><span class="meta">$</span> git log &lt;dev&gt; --oneline</span><br><span class="line"><span class="meta">#</span> 比较两个版本的区别</span><br><span class="line"><span class="meta">$</span> git log dev..master</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>以图表的方式显示提交合并网络</span><br><span class="line"><span class="meta">$</span> git log --pretty=format:'%h %s' --graph</span><br><span class="line"><span class="meta">$</span> git log --graph --pretty=oneline --abbrev-commit</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 可以查看所有分支的所有操作记录（包括已经被删除的 commit 记录和 reset 的操作）</span><br><span class="line"><span class="meta">$</span> git relog</span><br><span class="line"><span class="meta">#</span> 回退</span><br><span class="line"><span class="meta">$</span> git reset --hard &lt;commit ID&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="git底层原理"><a href="#git底层原理" class="headerlink" title="git底层原理"></a>git底层原理</h3><ul>
+<li><p>git存储对象</p>
+</li>
+<li><p>git树对象</p>
+</li>
+<li><p>git提交对象</p>
+</li>
+<li><p>git引用</p>
+</li>
+</ul>
+<h4 id="git存储对象"><a href="#git存储对象" class="headerlink" title="git存储对象"></a>git存储对象</h4><p>git 是一个内容寻址文件系统，其核心部分是一个简单的键值对数据库（key-value data store），你可以向数据库中插入任意内容，它会返回一个用于取回该值的hash 键。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> git 键值库中插入数据</span><br><span class="line"><span class="meta">$</span> echo 'hello world version 1.0' | git hash-object -w --stdin</span><br><span class="line">e4dc2ded6eb80dbbe38375acd0b409c81e98277d</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>基于键获取指定内容</span><br><span class="line"><span class="meta">$</span> git cat-file -p e4dc2ded6eb80dbbe38375acd0b409c81e98277d</span><br><span class="line">hello world version 1.0</span><br></pre></td></tr></table></figure>
+<p>git基于该功能 把每个文件的版本中内容都保存在数据库中，当要进行版本回滚的时候就通过其中一个键将其取回并替换。</p>
+<p>模拟演示git 版本写入与回滚过程</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#</span> 查找所有的git对象</span><br><span class="line"><span class="meta">$</span> find .git/objects/ -type f</span><br><span class="line"><span class="meta">#</span> 写入版本1</span><br><span class="line"><span class="meta">$</span> echo 'hello world version 1.0' &gt; README.MF;git hash-object -w README.MF</span><br><span class="line">warning: LF will be replaced by CRLF in README.MF.</span><br><span class="line">The file will have its original line endings in your working directory.</span><br><span class="line">e4dc2ded6eb80dbbe38375acd0b409c81e98277d</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 写入版本2</span><br><span class="line"><span class="meta">$</span> echo 'hello world version 2.0' &gt; README.MF;git hash-object -w README.MF</span><br><span class="line">warning: LF will be replaced by CRLF in README.MF.</span><br><span class="line">The file will have its original line endings in your working directory.</span><br><span class="line">a984c1ed3f9a3eceaf4043c5a3b227954621b5ea</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 写入版本3</span><br><span class="line"><span class="meta">$</span> echo 'hello world version 3.0' &gt; README.MF;git hash-object -w README.MF</span><br><span class="line">warning: LF will be replaced by CRLF in README.MF.</span><br><span class="line">The file will have its original line endings in your working directory.</span><br><span class="line">14f5521ac31e82f0b51ba2d278c6ce185e4a7a9a</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 回滚指定版本</span><br><span class="line"><span class="meta">$</span> git cat-file -p e4dc2ded6eb80dbbe38375acd0b409c81e98277d &gt; README.MF</span><br></pre></td></tr></table></figure>
+<p>git add 其实就是把修改之后的内容 插入到键值库中。当执行 git add README.MF 等同于执行了 git hash-object -w README.MF 把文件写到数据库中。</p>
+<h4 id="git树对象"><a href="#git树对象" class="headerlink" title="git树对象"></a>git树对象</h4><p>树对象解决了文件名存储的问题，它的目的是将多个文件名组织在一起，其内包含多个文件名称与其对应的Key和其它树对象的引用，可以理解成操作系统当中的文件夹，一个文件夹包含多个文件和多个其它文件夹。</p>
+<p><img src="/assets/git实战.assets/image-20191205133937485.png" alt="image-20191205133937485"></p>
+<p>每一个分支当中都关联了一个树对像，他存储了当前分支下所有的文件名及对应的 key.</p>
+<p>通过以下命令即可查看</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看commit对象</span><br><span class="line"><span class="meta">$</span> git cat-file -p 263d8a9463a5be9c8cb6973464fd7408945e20ac</span><br><span class="line">tree 7ca5aba06a1d353f082de003afb6aec2a334bc2a</span><br><span class="line">author fox &lt;2763800211@qq.com&gt; 1575524733 +0800</span><br><span class="line">committer fox &lt;2763800211@qq.com&gt; 1575524733 +0800</span><br><span class="line"></span><br><span class="line">commit 1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>查看对象类型</span><br><span class="line"><span class="meta">$</span> git cat-file -t 263d8a9463a5be9c8cb6973464fd7408945e20ac</span><br><span class="line">commit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>查看tree对象</span><br><span class="line"><span class="meta">$</span> git cat-file -p master^&#123;tree&#125;</span><br><span class="line">100644 blob e4dc2ded6eb80dbbe38375acd0b409c81e98277d    README.MF</span><br><span class="line">100644 blob f2f901d721b1819be1b9874952245ed6d2523d1d    fox.md</span><br></pre></td></tr></table></figure>
+<h4 id="git提交对象"><a href="#git提交对象" class="headerlink" title="git提交对象"></a>git提交对象</h4><p>一次提交即为当前版本的一个快照，该快照就是通过提交对象保存，其存储的内容为：一个顶级树对象、上一次提交的对象哈希、提交者用户名及邮箱、提交时间戳、提交评论。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看提交日志</span><br><span class="line"><span class="meta">$</span> git log master</span><br><span class="line">commit c631696a799a04dc04187b01a89854cef285b85e (HEAD -&gt; master)</span><br><span class="line">Author: fox &lt;2763800211@qq.com&gt;</span><br><span class="line">Date:   Thu Dec 5 14:01:21 2019 +0800</span><br><span class="line"></span><br><span class="line">    2 commit</span><br><span class="line"></span><br><span class="line">commit 263d8a9463a5be9c8cb6973464fd7408945e20ac</span><br><span class="line">Author: fox &lt;2763800211@qq.com&gt;</span><br><span class="line">Date:   Thu Dec 5 13:45:33 2019 +0800</span><br><span class="line"></span><br><span class="line">    commit 1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>查看提交对象信息</span><br><span class="line"><span class="meta">$</span> git cat-file -p  c631696a799a04dc04187b01a89854cef285b85e</span><br><span class="line">tree cc0850e551b41927c7aa88e1273bf4cedde9f63e</span><br><span class="line">parent 263d8a9463a5be9c8cb6973464fd7408945e20ac</span><br><span class="line">author fox &lt;2763800211@qq.com&gt; 1575525681 +0800</span><br><span class="line">committer fox &lt;2763800211@qq.com&gt; 1575525681 +0800</span><br><span class="line"></span><br><span class="line">2 commit</span><br></pre></td></tr></table></figure>
+<p>从修改一个文件到提交的过程中会生成三类对象：</p>
+<p>一个内容对象 ==&gt; 存储了文件内容</p>
+<p>树对象（至少一个） ==&gt; 存储了文件名及内容对象的key </p>
+<p>一个提交对象 ==&gt; 存储了树对象的key 及提交评论。</p>
+<h4 id="git引用"><a href="#git引用" class="headerlink" title="git引用"></a>git引用</h4><p>当执行 git branch {branchName} 时创建了一个分支，其本质就是在git 基于指定提交创建了一个引用文件，保存在 .git\refs\heads\ 下。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 创建分支</span><br><span class="line"><span class="meta">$</span> git branch dev </span><br><span class="line"><span class="meta">#</span> 查看分支引用文件</span><br><span class="line"><span class="meta">$</span> cat .git\refs\heads\dev</span><br><span class="line"><span class="meta">#</span> 查看分支差异</span><br><span class="line">git diff dev..master</span><br></pre></td></tr></table></figure>
+<h3 id="git通信协议"><a href="#git通信协议" class="headerlink" title="git通信协议"></a>git通信协议</h3><p>分布式通信需要有应用协议，应用协议的实现包含编码，解码和远程传输的实现，git支持四种应用协议，分别是Local，http，git，ssh。通过四种协议都可以手动搭建简单的git仓库私服。</p>
+<h4 id="Local-本地协议"><a href="#Local-本地协议" class="headerlink" title="Local(本地协议)"></a>Local(本地协议)</h4><p>本地协议可以基于本地文件系统，或者共享（NFS）文件系统进行访问，来实现源码的一个共享，使用Local协议搭建git私服是最轻松的，也是最简单的。</p>
+<p><strong>优点：</strong>简单，直接使用了现有的文件权限和网络访问权限，小团队小项目建立一个这样的版本管理系统是非常轻松的一件事。</p>
+<p><strong>缺点：</strong>这种协议缺陷就是本身共享文件系统的局限，只能在局域网，而且速度也慢。</p>
+<p><strong>适应场景：</strong>小团队，小项目临时搭建版本服务。</p>
+<p>演示本地协议使用方式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 使用目录 /d/git/local 作为git公共仓库，在仓库中创建一个裸项目</span><br><span class="line"><span class="meta">#</span> 祼项目一般用做git服务、非裸项目也可做远程服务，二者区别在于祼项目录中文件无法查看和修改。</span><br><span class="line"><span class="meta">$</span> git init --bare hello.git</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 克隆项目</span><br><span class="line"><span class="meta">$</span> git clone /d/git/local/hello.git</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 基于file 协议克隆本地项目</span><br><span class="line"><span class="meta">$</span> git clone file:///d/git/local/hello.git</span><br></pre></td></tr></table></figure>
+<p>如果在 URL 开头明确的指定 file://，那么 git 的行为会略有不同。 如果仅是指定路径，git 会尝试使用硬链接（hard link）或直接复制所需要的文件。 如果指定 file://，git 会触发平时用于网路传输资料的进程，传输过来的是打包好的文件,更节约硬盘空间。</p>
+<h4 id="ssh协议"><a href="#ssh协议" class="headerlink" title="ssh协议"></a>ssh协议</h4><p>在Linux中，ssh协议是我们经常用到的。ssh属于Linux里面的一个通信协议，基于ssh在Linux中搭建私服，访问git仓库是不需要做额外的配置的。只需要基于ssh的用户名密码即可。git 支持利用ssh 协议进行通信，这是绝大部分linux、uninx系统都支持的，所以利用该协议架设git版本服务是非常方便的。</p>
+<p><strong>优点</strong>：首先ssh 架设相对简单、其次通过 ssh 访问是安全的，另外ssh 协议很高效，在传输前也会尽量压缩数据。</p>
+<p><strong>缺点</strong>：权限体系不灵活，必须提供操作系统的帐户密码，哪怕是只需要读取版本。</p>
+<p><strong>适用场景</strong>：团队、小项目、临时项目</p>
+<p>演示ssh 协议使用方式:</p>
+<p>git 服务必须先安装到linux 系统上，然后才能使用ssh协议跟git服务进行通信</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> /data/git下创建一个祼项目</span><br><span class="line">git --bare init hello.git</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 本地基于远程克隆仓库</span><br><span class="line">git clone root@192.168.3.14:/data/git/hello.git</span><br><span class="line">cd hello/</span><br><span class="line"><span class="meta">#</span> 添加文件</span><br><span class="line">echo 'hello world version 1.0' &gt;&gt; README.MF</span><br><span class="line"><span class="meta">#</span> 本地添加、提交、并推送至远程</span><br><span class="line">git add -A; git commit -am 'commit 1'; git push;</span><br></pre></td></tr></table></figure>
+<p>免密码登录配置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 开发机器上生成公钥  </span><br><span class="line">ssh-keygen -t rsa </span><br><span class="line"><span class="meta">#</span>查看公钥内容</span><br><span class="line">cat ~/.ssh/id_rsa.pub</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>拷贝公钥内容到git服务器的用户目录的.ssh下的authorized_keys文件中</span><br><span class="line">cd ~/.ssh/</span><br><span class="line">vim authorized_keys</span><br></pre></td></tr></table></figure>
+<p>可能的错误：</p>
+<p>git-upload-pack: command not found</p>
+<p>原因是 ssh 协议下只能访问/usr/bin 下的目录，解决办法如下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/git/bin/git-upload-pack /usr/bin/git-upload-pack</span><br><span class="line">ln -s /usr/local/git/bin/git-receive-pack /usr/bin/git-receive-pack</span><br></pre></td></tr></table></figure>
+<h4 id="http协议"><a href="#http协议" class="headerlink" title="http协议"></a>http协议</h4><p>git http 协议实现是依懒WEB容器(apache、nginx)及cgi 组件进行通信交互，并利用WEB容器本身权限体系进行授权验证。在git 1.6.6 前只支持http Dumb（哑）协议，该协议只能下载不能提交，通常会配合ssh 协议一起使用，ssh 分配提交帐号，http dumb提供只读帐号。1.6.6 之后git 提供了git-http-backend 的 CGI 用于实现接收远程推送等功能。</p>
+<p><strong>优点</strong>：解决了local 与ssh权限验证单一的问题、可基于http url 提供匿名服务，从而可以放到公网上去。而local 与ssh 是很难做到这一点,比如实现一个类似github 这样的网站。</p>
+<p><strong>缺点</strong>：架设复杂一些需要部署 WEB服务器，和https 证书之类的配置</p>
+<p><strong>适用场景</strong>：大型团队、需要对权限精准控制、需要把服务部署到公网上去</p>
+<p>演示http Dumb 配置与使用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> /data/git下创建一个祼项目</span><br><span class="line">git --bare init hello.git</span><br><span class="line"><span class="meta">#</span> 在仓库中加一个钩子，首先进入目录：</span><br><span class="line">cd  /data/git/hello.git/hooks</span><br><span class="line"><span class="meta">#</span> 修改文件，post-update 当有项目修改的时候，就会触发这个钩子</span><br><span class="line"><span class="meta">#</span> 钩子参考： https://www.git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90</span><br><span class="line">mv post-update.sample post-udpate</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>打包，然后生成web端能够访问的静态文件</span><br><span class="line"><span class="meta">#</span>进入hello.git目录</span><br><span class="line">git update-server-info</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>配置nginx</span><br><span class="line"> server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  localhost git.bat.com;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            root   /data/git;</span><br><span class="line">        &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span>C:\Windows\System32\drivers\etc配置</span><br><span class="line">192.168.3.14     git.bat.com </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 本地克隆远程服务</span><br><span class="line">git clone http://git.bat.com/hello.git </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 哑协议只能拉取，无法提交</span><br><span class="line"><span class="meta">$</span> git push</span><br><span class="line">error: Cannot access URL http://git.bat.com/hello.git/, return code 22</span><br><span class="line">fatal: git-http-push failed</span><br><span class="line">error: failed to push some refs to 'http://git.bat.com/hello.git'</span><br></pre></td></tr></table></figure>
+<p><strong>哑协议只能拉取代码，但是http智能协议可以同时实现拉取和推送。</strong> 设置 Smart HTTP 一般只需要在服务器上启用一个 git 自带的名为 git-http-backend 的 CGI 脚本。 该 CGI 脚本将会读取由 git fetch 或 git push 命令向 HTTP URL 发送的请求路径和头部信息，来判断该客户端是否支持 HTTP 通信（不低于 1.6.6 版本的客户端支持此特性）。 如果 CGI 发现该客户端支持智能（Smart）模式，它将会以智能模式与它进行通信，否则它将会回落到哑（Dumb）模式下（因此它可以对某些老的客户端实现向下兼容）。Smart 协议 是基于CGI 配合git git-http-backend 脚本进行使用，配置较复杂，现在一般不会这么去做，而是采用gitlab 、gogs 之类的web管理进行代替</p>
+<h4 id="git协议"><a href="#git协议" class="headerlink" title="git协议"></a>git协议</h4><p>git 协议是包含在 git 里的一个特殊的守护进程，它会监听一个特定的端口（9418），类似于 SSH 服务，但是访问无需任何授权。</p>
+<p><strong>优点</strong>：目前，git 协议是 git 使用的网络传输协议里最快的。 如果你的项目有很大的访问量，或者你的项目很庞大并且不需要为写进行用户授权，架设 git 守护进程来提供服务是不错的选择。 它使用与 SSH 相同的数据传输机制，但是省去了加密和授权的开销。</p>
+<p><strong>缺点</strong>：git 协议缺点是缺乏授权机制。 而且9418是一个非标准端口，一般防火墙不会开放</p>
+<p>演示git协议的使用：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">yum install -y git-daemon</span><br><span class="line"><span class="meta">#</span> 启动守护进程 ,配置git协议</span><br><span class="line">nohup git daemon --reuseaddr --base-path=/data/git/ /data/git/ &amp;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> /data/git下创建一个祼项目</span><br><span class="line">git --bare init hello3.git</span><br><span class="line">cd hello3.git/</span><br><span class="line"><span class="meta">#</span> 创建一个空文件，表示开放该项目，允许非授权访问</span><br><span class="line">touch git-daemon-export-ok</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>本地克隆远程项目</span><br><span class="line">git clone git://192.168.3.14:9418/hello3.git</span><br></pre></td></tr></table></figure>
+<h3 id="git私服搭建"><a href="#git私服搭建" class="headerlink" title="git私服搭建"></a>git私服搭建</h3><p>基于gogs快速搭建企业私有git服务</p>
+<h4 id="gogs-介绍安装"><a href="#gogs-介绍安装" class="headerlink" title="gogs 介绍安装"></a>gogs 介绍安装</h4><p>Gogs 是一款开源的轻量级git web服务，其特点是简单易用完档齐全、国际化做的相当不错。其主要功能如下:</p>
+<ul>
+<li><ol>
+<li>提供Http 与ssh 两种协议访问源码服务</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>提供WEB界面可查看修改源码代码</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>提供较完善的权限管理功能、其中包括组织、团队、个人等仓库权限</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>提供简单的项目wiki功能</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>提供工单管理与里程碑管理。</li>
+</ol>
+</li>
+</ul>
+<p>下载安装</p>
+<p>官网：<a href="https://gogs.io" target="_blank" rel="noopener">https://gogs.io</a></p>
+<p>下载：<a href="https://gogs.io/docs/installation" target="_blank" rel="noopener">https://gogs.io/docs/installation</a> 选择Linux amd64 下载安装</p>
+<p>文档：<a href="https://gogs.io/docs/installation/install_from_binary" target="_blank" rel="noopener">https://gogs.io/docs/installation/install_from_binary</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://dl.gogs.io/0.11.91/gogs_0.11.91_linux_amd64.tar.gz</span><br><span class="line"><span class="meta">#</span>后台运行</span><br><span class="line">nohup ./gogs web &amp;</span><br></pre></td></tr></table></figure>
+<p>默认端口：3000,初次访问http://<host>:3000 会进到初始化页,进行引导配置。</host></p>
+<h4 id="gogs基础配置"><a href="#gogs基础配置" class="headerlink" title="gogs基础配置"></a>gogs基础配置</h4><p>配置手册 <a href="https://gogs.io/docs/advanced/configuration_cheat_sheet" target="_blank" rel="noopener">https://gogs.io/docs/advanced/configuration_cheat_sheet</a></p>
+<h4 id="gogs-定时备份与恢复"><a href="#gogs-定时备份与恢复" class="headerlink" title="gogs 定时备份与恢复"></a>gogs 定时备份与恢复</h4><h5 id="备份与恢复"><a href="#备份与恢复" class="headerlink" title="备份与恢复"></a>备份与恢复</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>查看备份相关参数</span><br><span class="line">./gogs backup -h</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>默认备份,备份在当前目录</span><br><span class="line">./gogs backup </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>参数化备份  --target 输出目录 --database-only 只备份db </span><br><span class="line">./gogs backup --target=./backups --database-only --exclude-repos</span><br><span class="line"><span class="meta">#</span>恢复。执行该命令前要先删除 custom.bak</span><br><span class="line">./gogs restore --from=gogs-backup-20191208192026.zip</span><br><span class="line"></span><br><span class="line">./gogs restore --database-only  --from=./backups/gogs-backup-20191208221323.zip --config custom/conf/app.ini</span><br></pre></td></tr></table></figure>
+<h5 id="自动备份脚本"><a href="#自动备份脚本" class="headerlink" title="自动备份脚本"></a>自动备份脚本</h5><p>backup.sh内容如下： </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/bin/sh -e</span></span><br><span class="line"></span><br><span class="line">gogs_home=<span class="string">"/usr/local/soft/gogs/"</span></span><br><span class="line">backup_dir=<span class="string">"<span class="variable">$gogs_home</span>/backups"</span></span><br><span class="line"><span class="built_in">cd</span> `dirname <span class="variable">$0</span>`</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行备份命令</span></span><br><span class="line">./gogs backup --target=<span class="variable">$backup_dir</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'backup sucess'</span></span><br><span class="line"></span><br><span class="line">day=7</span><br><span class="line"><span class="comment">#查找并删除 7天前的备份  </span></span><br><span class="line">find <span class="variable">$backup_dir</span> -name <span class="string">'*.zip'</span> -mtime +7 -<span class="built_in">type</span> f |xargs rm -f;</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'delete expire back data!'</span></span><br></pre></td></tr></table></figure>
+<h5 id="添加定时任务"><a href="#添加定时任务" class="headerlink" title="添加定时任务"></a>添加定时任务</h5><p> 每天2:00执行备份</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">列出当前用户的crontab</span></span><br><span class="line">crontab ‐l</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 打开任务编辑器</span></span><br><span class="line">crontab -e</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 输入如下命令 00 02 * * * 每天凌晨2点执行 backup.sh 并输出日志至 backup.log</span></span><br><span class="line"><span class="meta">#</span><span class="bash">分 时 日 月 星期 <span class="built_in">command</span></span></span><br><span class="line">00 04 * * * /usr/local/soft/gogs/backup.sh &gt;&gt; /usr/local/soft/gogs/backup.log 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启crontab</span></span><br><span class="line">systemctl restart crond.service</span><br><span class="line"><span class="meta">#</span><span class="bash">查看状态</span></span><br><span class="line">systemctl status crond.service</span><br></pre></td></tr></table></figure>
+
       
 
       
@@ -276,7 +448,33 @@ var _hmt = _hmt || [];
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GIT</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/TOOLS//" class="article-tag-list-link color1">TOOLS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/TOOLS/笔记//" class="article-tag-list-link color3">笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
 
@@ -326,7 +524,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://qiniu.afenghu.com/photos/videos.html" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://qiniu.afenghu.com/2019/12/18/git实战/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -339,6 +537,16 @@ var _hmt = _hmt || [];
 </article>
 
   
+<nav id="article-nav">
+  
+  
+    <a href="/2019/04/02/1-入门篇：安装使用Mysql及版本区别-5-6-5-7-Mysql-DBA修炼之路/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">1.入门篇：安装使用Mysql及版本区别(5.6 5.7)-Mysql DBA修炼之路</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -353,6 +561,19 @@ var _hmt = _hmt || [];
         </div>
         
         
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#git基础概念"><span class="toc-number">1.</span> <span class="toc-text">git基础概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#git与svn的区别"><span class="toc-number">1.1.</span> <span class="toc-text">git与svn的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#存储方式不同"><span class="toc-number">1.1.1.</span> <span class="toc-text">存储方式不同</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#使用方式不同"><span class="toc-number">1.1.2.</span> <span class="toc-text">使用方式不同</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#管理模式不同"><span class="toc-number">1.1.3.</span> <span class="toc-text">管理模式不同</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git核心命令"><span class="toc-number">2.</span> <span class="toc-text">git核心命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#git-客户端安装"><span class="toc-number">2.1.</span> <span class="toc-text">git 客户端安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#git的基本使用"><span class="toc-number">2.2.</span> <span class="toc-text">git的基本使用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#初始化git仓库"><span class="toc-number">2.2.1.</span> <span class="toc-text">初始化git仓库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#查看仓库状态"><span class="toc-number">2.2.2.</span> <span class="toc-text">查看仓库状态</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#本地添加"><span class="toc-number">2.2.3.</span> <span class="toc-text">本地添加</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#本地提交"><span class="toc-number">2.2.4.</span> <span class="toc-text">本地提交</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#远程仓库管理"><span class="toc-number">2.2.5.</span> <span class="toc-text">远程仓库管理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分支管理"><span class="toc-number">2.2.6.</span> <span class="toc-text">分支管理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#tag管理"><span class="toc-number">2.2.7.</span> <span class="toc-text">tag管理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#日志管理"><span class="toc-number">2.2.8.</span> <span class="toc-text">日志管理</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git底层原理"><span class="toc-number">3.</span> <span class="toc-text">git底层原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#git存储对象"><span class="toc-number">3.1.</span> <span class="toc-text">git存储对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#git树对象"><span class="toc-number">3.2.</span> <span class="toc-text">git树对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#git提交对象"><span class="toc-number">3.3.</span> <span class="toc-text">git提交对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#git引用"><span class="toc-number">3.4.</span> <span class="toc-text">git引用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git通信协议"><span class="toc-number">4.</span> <span class="toc-text">git通信协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Local-本地协议"><span class="toc-number">4.1.</span> <span class="toc-text">Local(本地协议)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ssh协议"><span class="toc-number">4.2.</span> <span class="toc-text">ssh协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#http协议"><span class="toc-number">4.3.</span> <span class="toc-text">http协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#git协议"><span class="toc-number">4.4.</span> <span class="toc-text">git协议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git私服搭建"><span class="toc-number">5.</span> <span class="toc-text">git私服搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#gogs-介绍安装"><span class="toc-number">5.1.</span> <span class="toc-text">gogs 介绍安装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gogs基础配置"><span class="toc-number">5.2.</span> <span class="toc-text">gogs基础配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gogs-定时备份与恢复"><span class="toc-number">5.3.</span> <span class="toc-text">gogs 定时备份与恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#备份与恢复"><span class="toc-number">5.3.1.</span> <span class="toc-text">备份与恢复</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#自动备份脚本"><span class="toc-number">5.3.2.</span> <span class="toc-text">自动备份脚本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#添加定时任务"><span class="toc-number">5.3.3.</span> <span class="toc-text">添加定时任务</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
     </div>
 </aside>
 
@@ -363,7 +584,7 @@ var _hmt = _hmt || [];
   
 
   
-  <div id="SOHUCS" sid="photos"></div> 
+  <div id="SOHUCS" sid="git实战"></div> 
 <script charset="utf-8" type="text/javascript" src="//changyan.sohu.com/upload/changyan.js"></script>
 <script type="text/javascript">
     window.changyan.api.config({
@@ -405,7 +626,7 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
